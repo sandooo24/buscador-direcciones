@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Buscador Direcciones</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+	<link rel="stylesheet" href="Jquery/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Buscador de direcciones con <b>Georef Api</b></h1>
+
+	<label for="p">Provincia</label>
+	<select type="text" id="p" list="search-pro" required>
+		
+	</select>
+
+	<form id="form_element">
+		
+		<!-- <label for="l">Localidad</label>
+		<input type="text" id="l" required> -->
+		<label for="d">Direccion</label>
+		<input type="text" name="direccion" id="d" required >
+		
+		<button id="btn">
+			Mostrar
+		</button>
+	</form>
+
+	<div id="mapa"></div>
+	
+	<script src="Jquery/jquery-3.7.1.min.js"></script>
+	<script src="Jquery/jquery-ui.js"></script>
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<script src="mapa.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
