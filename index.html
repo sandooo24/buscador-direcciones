@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Buscador Direcciones</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Buscador Direcciones con Api Georef</title>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
-	<link rel="stylesheet" href="Jquery/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<h1>Buscador de direcciones con <b>Georef Api</b></h1>
 
-	<label for="p">Provincia</label>
-	<select type="text" id="p" list="search-pro" required>
+	<!-- FORMULARIO -->
+	<form id="form_element" class="form">
+		<h2>Buscador de direcciones con Api <b>Georef</b></h2>
 		
-	</select>
-
-	<form id="form_element">
+		<div class="inputs">
+			<label for="select_pro">Provincia</label>
+			<select type="text" name="provincia" id="select_pro" list="search-pro" required>
+				<!-- Aqui se cargaran las provincias  -->
+			</select>
+		</div>
 		
-		<!-- <label for="l">Localidad</label>
-		<input type="text" id="l" required> -->
-		<label for="d">Direccion</label>
-		<input type="text" name="direccion" id="d" required >
+		<div class="inputs">
+			<label for="d">Direccion</label>
+			<input type="text" name="direccion" id="input_dir" required >
+			<ul class="search-results" id="search_results">
+				
+			</ul>
+		</div>
 		
 		<button id="btn">
 			Mostrar
 		</button>
 	</form>
-
-	<div id="mapa"></div>
 	
-	<script src="Jquery/jquery-3.7.1.min.js"></script>
-	<script src="Jquery/jquery-ui.js"></script>
+	<!-- MAPA -->
+	<div id="mapa"></div>
+
 	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 	<script src="mapa.js"></script>
 	<script src="script.js"></script>

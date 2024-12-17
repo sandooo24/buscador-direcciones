@@ -1,20 +1,220 @@
+*{
+	margin:0;
+	box-sizing: border-box;
+}
+
 body{
-	font-family: sans-serif
+	font-family: sans-serif;
 }
 
-label{
-	display: inline-block;
-	width: 20%;
-}
-
-input,select{
-	width: 60%;
-	margin-bottom: 1rem;
-}
-
+/*
+	MAPA
+*/
 #mapa{
+	/*display: none;*/
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+.leaflet-control-zoom{
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+    z-index: 2;
+}
+
+.search-results{
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+	list-style: none;
+	padding: 0;
+	background-color: #fff;
+}
+
+.search-results li{
+	text-transform: capitalize;
+	padding: 2px 5px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+
+.search-results li:hover{
+	background-color: #ccc
+}
+
+/*
+	FORMULARIO
+*/
+.form{
+	padding: 1rem;
+}
+
+.inputs{
 	position: relative;
-	height: 70vh;
-	box-shadow: 0px 0px 10px 0px #888;
-	z-index: 0;
+	text-align: left;
+	margin-bottom: 1rem;
+	width: 50%;
+}
+
+.semi{	width: 80%;}
+
+.all{	width: 100%;}
+
+.flex{
+	display: flex;
+	align-items: center;
+	gap:.5rem;
+}
+
+.input-help{
+	text-transform: capitalize;
+    font-size: .7rem;
+    color: grey;
+}
+
+.inputs label{
+	font-size: 1rem;
+	display: inline-block;
+	/*color: #444040;*/
+    font-weight: 500;
+	margin-bottom: 5px;
+}
+
+.inputs input, .inputs select, .inputs textarea{
+	width: 100%;
+	font-size: 1rem;
+	border-radius: 2px;
+	border: 1px solid #CACACA;
+	/*color: #000000a3;*/
+	box-shadow: inset 0px 0px 1px 0px rgba(0, 0, 0, 0.5);
+	padding: .5rem;
+	outline: none;
+}
+
+.inputs select{
+	text-transform: capitalize;
+}
+
+.inputs textarea{
+	min-width: 100%;
+	max-width: 100%;
+	min-height: 100px;
+}
+
+.inputs input:focus, .inputs textarea:focus, .inputs select:focus{
+	/*transition: all .4s;*/
+	border-color: var(--bd-input-focus);
+	box-shadow: 0px 0px 5px 1px var(--bs-input-focus);
+}
+
+.inputs .label-imp::after{
+	content: '*';
+	color: red;
+	margin-left: 5px;
+}
+
+.inputs input[type="file"]{
+	display: none;
+}
+
+#label-input-file{
+	display: flex;
+}
+
+.file-btn,.file-name{
+	padding: 5px 10px;
+}
+
+.file-btn{
+	background: #5bc0de url('../../views/img/alert/folder-open.svg') 4px center/25px no-repeat;
+	border: 1px solid #5bc0de;
+	white-space: nowrap;
+	border-radius: 2px 0px 0px 2px;
+	color: #fff;
+	padding-left: 33px;
+}
+
+.file-name{
+	background-color: #EEE;
+	border: 1px solid #CACACA;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-radius: 0px 2px 2px 0px
+}
+
+.horizon{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0 2rem;
+	width: 100%;
+}
+
+.horizon input, .horizon select{
+	width: 50%;
+}
+
+.horizon label{
+	width: 30%;
+	text-align: right;
+}
+
+
+.inputs-group{
+	display: flex;
+	gap:1rem;
+	width: 100%;
+}
+
+
+
+/*
+*
+* Version Netbook
+*
+*/
+@media(max-width: 1024px){
+
+	.inputs label,.inputs input,.inputs select{
+		font-size: .9rem
+	}
+}
+
+/*
+*
+* Version Mobile
+*
+*/
+@media (max-width: 600px) {
+
+	.msg-error-form{
+		text-align: left;
+	}
+	
+	.horizon{
+		display: block;
+	}
+
+	.horizon label{
+		width: auto;
+	}
+	
+	.horizon input, .horizon select{
+		width: 100%;
+	}
+
+	.inputs-group{
+		flex-wrap: wrap;
+		gap:0;
+	}
+
+	.inputs{
+		width: 100%;
+	}
 }

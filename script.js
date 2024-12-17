@@ -1,103 +1,100 @@
 
+/**
+ * 
+ * Evento cuando escribe la direccion á buscar
+ * 
+ * */
+input_dir.addEventListener('keyup', async e => {
+	let busqueda = e.target.value
 
-$(document).ready(function() {
-	// busca localidades
-	$('#l').on('keyup', function(){
-		var busqueda=$(this).val();
+	if (busqueda) {
+		// paramatros de la peticion a la api
+		const optionsRequest = new URLSearchParams({
+			provincia: select_pro.value,
+			direccion: busqueda,
+			max: 10,
+		}).toString()
 
-		if (busqueda) {
-			let data={
-				provincia: $('#p').val(),
-				nombre: busqueda,
-			}
+		// peticion a la api
+		const { direcciones } = await georefApi(`direcciones?${optionsRequest}`)
 
-			georefApi('localidades',data).then( response => {
-				// almacena las localidades
-				let localidades = response.localidades
+		showResultsSearch(direcciones)
 
-				// alamcena solo los nombres de la localidades
-				let namesL = localidades.map(item=> `${item.nombre} - ${item.municipio.nombre}`)
+		return
+	}
 
-				// muestra un autocompletado de las localidades
-				$('#l').autocomplete({
-					source: namesL,
-				})
-
-			})	
-		}
-	})
-
-	$('#d').on('keyup', function(){
-		var busqueda=$(this).val();
-
-		if (busqueda) {
-			let data={
-				provincia: $('#p').val(),
-				direccion: busqueda,
-				max: 10,
-			}
-
-			georefApi('direcciones',data).then( response => {
-				// almacena las direcciones
-				let direcciones = response.direcciones
-				// console.log(response)
-				
-				// alamcena solo los nombres de la direcciones
-				let namesL = direcciones.map(item=> `${item.nomenclatura}`)
-
-				// muestra un autocompletado de las direcciones
-				$('#d').autocomplete({
-					source: namesL,
-				})
-
-			})	
-		}
-	})
+	search_results.innerHTML=''
 })
 
+function showResultsSearch(direcciones) {
+	search_results.innerHTML=''
+
+	// si no se encontraron direcciones 
+	if (direcciones=='') {
+		return// termina la ejcucion
+	}
+
+	// console.log(direcciones)
+	direcciones.forEach( col => {
+		let li = document.createElement('li')
+		li.innerHTML = col.nomenclatura.toLowerCase()
+		li.id = "search_select"
+
+		search_results.appendChild(li)
+	})
+
+	// si hace click es uno de los resultados de busqueda
+	search_results.addEventListener('click', ev =>{
+		input_dir.value=ev.target.innerText
+		search_results.innerText=''
+	})
+}
+
+/**
+ * 
+ * Evento del formulario cuando lo completa 
+ * 
+ * */
 form_element.addEventListener('submit', e => {
 	e.preventDefault()
 
-	const form = Object.fromEntries(new FormData(e.target))
+	const form = new URLSearchParams(Object.fromEntries(new FormData(e.target))).toString()
 
 	console.log(form)
-	let options={
-		provincia: $('#p').val(),
-		direccion: $('#d').val(),
 
-	}
-	georefApi('direcciones',options).then(response=>{
+	georefApi(`direcciones?${form}`).then(response=>{
 		let data = response.direcciones[0]
 
-		console.log(data)
 		let ubicacion = data.ubicacion
 		// console.log(ubicacion)
 
 		marcarMapa(ubicacion.lat, ubicacion.lon)
 	})
 })
+/*
+ *
+ * Envia una peticion a la api
+ * @return object | array | string valor de la respuesta
+ * @param option string nombre del endpoint
+ *
+ **/
+const georefApi = async(option) =>{
 
-const georefApi = async(option,datos) =>{
-	const info={
-		url: `https://apis.datos.gob.ar/georef/api/${option}`,
-		type: 'GET',
-		data: datos,
-	}
+	const url = `https://apis.datos.gob.ar/georef/api/${option}`
 
-	const response = await $.ajax(info)
+	const response = await fetch(url)
+	const data = await response.json();
 
-	return response;
+	return data;
 }
 
+// peticion a la api para traer las povincias
+georefApi('provincias?orden=nombre').then( response => {
+	response.provincias.map(item=> {
+		let option = document.createElement('option')
+		option.value = item.nombre
+		option.innerHTML = item.nombre
 
-georefApi('provincias',{ orden: "nombre" }).then( response => {
-
-	// almacena las provincias
-	let provincias = response.provincias
-
-	// alamcena solo los nombres de la provincias
-	provincias.map(item=> {
-		$('#p').append(`<option value="${item.nombre}">${item.nombre}</option>`) 
+		select_pro.appendChild(option)
 	})
-
 })
