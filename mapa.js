@@ -1,6 +1,8 @@
 // inicializo el mapa
 let map=L.map('mapa');
 
+let marker = ''
+
 navigator.geolocation.getCurrentPosition( (p) =>{
 	// console.log(p)
 	// obtengo la posicion actual
@@ -24,8 +26,12 @@ L.control.scale().addTo(map);
 
 // funcion para marcar ubicacion
 function marcarMapa(lat, lon){
+	if (marker) {
+		marker.remove()
+	}
+
 	// coloca el marcador en el mapa
-	L.marker([lat, lon]).addTo(map);
+	marker = L.marker([lat, lon]).addTo(map);
 
 	// muestra la posicion del marcador
 	map.setView([lat, lon], 16)

@@ -10,28 +10,30 @@
 <body>
 
 	<!-- FORMULARIO -->
-	<form id="form_element" class="form">
-		<h2>Buscador de direcciones con Api <b>Georef</b></h2>
-		
-		<div class="inputs">
-			<label for="select_pro">Provincia</label>
-			<select type="text" name="provincia" id="select_pro" list="search-pro" required>
-				<!-- Aqui se cargaran las provincias  -->
-			</select>
-		</div>
-		
-		<div class="inputs">
-			<label for="d">Direccion</label>
-			<input type="text" name="direccion" id="input_dir" required >
-			<ul class="search-results" id="search_results">
-				
-			</ul>
-		</div>
-		
-		<button id="btn">
-			Mostrar
-		</button>
-	</form>
+	<div class="form">
+		<form id="form_element">
+			<h2>Buscador de direcciones con Api <b>Georef</b></h2>
+			
+			<div class="inputs all">
+				<label for="select_pro">Provincia</label>
+				<select type="text" name="provincia" id="select_pro" list="search-pro" required>
+					<!-- Aqui se cargaran las provincias  -->
+				</select>
+			</div>
+			
+			<div class="inputs all">
+				<label for="d">Direccion</label>
+				<input type="text" name="direccion" id="input_dir" required >
+				<ul class="search-results" id="search_results">
+					
+				</ul>
+			</div>
+			
+			<button class="btn">
+				Mostrar
+			</button>
+		</form>
+	</div>
 	
 	<!-- MAPA -->
 	<div id="mapa"></div>
