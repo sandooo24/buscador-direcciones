@@ -16,17 +16,21 @@
 			
 			<div class="inputs all">
 				<label for="select_pro">Provincia</label>
-				<select type="text" name="provincia" id="select_pro" list="search-pro" required>
+				<select type="text" name="provincia" id="select_pro" required>
 					<!-- Aqui se cargaran las provincias  -->
 				</select>
 			</div>
 			
 			<div class="inputs all">
-				<label for="d">Direccion</label>
+				<label for="d">Direccion de Referencia</label>
 				<input type="text" name="direccion" id="input_dir" required >
-				<ul class="search-results" id="search_results">
-					
-				</ul>
+			</div>	
+
+			<div class="inputs all">
+				<label for="search_results">Busqueda de direccion</label>
+				<select name="result" id="search_results" required>
+					<option value="nada" selected disabled>No se encontraron resultados</option>
+				</select>
 			</div>
 			
 			<button class="btn">

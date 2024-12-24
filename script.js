@@ -1,12 +1,4 @@
 let DIRECCIONES = []// Almacenara las ubicaciones
-let DIRE_SELECT = '';// Almacenara la direccion seleccionada en sugerencias
-
-// si quita el foco del input
-input_dir.addEventListener('blur', e =>{
-	setTimeout(()=>{
-		search_results.innerHTML=''
-	}, 500)
-})
 
 /**
  * 
@@ -17,7 +9,6 @@ input_dir.addEventListener('keyup', async e => {
 	let busqueda = e.target.value
 
 	if (busqueda) {
-		DIRE_SELECT=''
 		// paramatros de la peticion a la api
 		const optionsRequest = new URLSearchParams({
 			provincia: select_pro.value,
@@ -33,12 +24,12 @@ input_dir.addEventListener('keyup', async e => {
 		return
 	}
 
-	search_results.innerHTML=''
+	search_results.innerHTML='<option value="nada" selected disabled>No se encontraron resultados</option>'
 })
 
 /**
  * 
- * Muestra las sugerencias
+ * Muestra las direcciones buscadas 
  * 
  * */
 function showResultsSearch(direcciones) {
@@ -47,30 +38,21 @@ function showResultsSearch(direcciones) {
 
 	// si no se encontraron direcciones 
 	if (direcciones=='') {
+		search_results.innerHTML='<option value="nada" selected disabled>No se encontraron resultados</option>'
 		return// termina la ejcucion
 	}
 
-	DIRE_SELECT = ''
 	DIRECCIONES = []
 
 	// console.log(direcciones)
 	direcciones.map( (col,ind) => {
-		DIRECCIONES.push(col.ubicacion)
+		DIRECCIONES.push(col)
 
-		let li = document.createElement('li')
-		li.innerHTML = col.nomenclatura.toLowerCase()
-		li.id = "search_select"
-		li.value = ind+1
+		let option = document.createElement('option')
+		option.innerHTML = col.nomenclatura.toLowerCase()
+		option.value = ind+1
 
-		search_results.appendChild(li)
-	})
-
-	// si hace click es uno de los resultados de busqueda
-	search_results.addEventListener('click', ev =>{
-		// console.dir(ev.target.value)
-		DIRE_SELECT = ev.target.value
-		input_dir.value=ev.target.innerText
-		search_results.innerText=''
+		search_results.appendChild(option)
 	})
 }
 
@@ -82,36 +64,17 @@ function showResultsSearch(direcciones) {
 form_element.addEventListener('submit', async e => {
 	e.preventDefault()
 
-	// si la direc fue seleccionada
-	if (DIRE_SELECT) {	
-		console.log('li',DIRE_SELECT)
-		console.log('a',DIRECCIONES[DIRE_SELECT-1])
-		const { lat, lon } = DIRECCIONES[DIRE_SELECT-1]
+	const form = new FormData(e.target)
 
-		marcarMapa(lat, lon)
-
-		return
-	}
-
-	let form = Object.fromEntries(new FormData(e.target))
-
-	form.direccion = form.direccion.toUpperCase()
-
-	form = new URLSearchParams(form).toString()
-	console.log(form)
-
-	//peticion a la api
-	const {direcciones} = await georefApi(`direcciones?${form}`)
-
-	// si no encontro coincidencias
-	if(direcciones==''){
+	// si no se encontro la direccion de buscada
+	if (!form.get('result')) {
 		alert('No se encontro la dirección')
 		return
-	}
+	}	
 
-	let {lat, lon} = direcciones[0].ubicacion
-
-	marcarMapa(lat, lon)
+	const { ubicacion: {lat, lon}, nomenclatura } = DIRECCIONES[form.get('result')-1]
+	
+	marcarMapa(lat,lon,`<h2>${nomenclatura}</h2> <b>Lat:</b> ${lat} <br/> <b>Lon:</b> ${lon}`)	
 })
 
 /*

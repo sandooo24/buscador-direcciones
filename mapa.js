@@ -25,13 +25,13 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.control.scale().addTo(map);
 
 // funcion para marcar ubicacion
-function marcarMapa(lat, lon){
+function marcarMapa(lat, lon, text){
 	if (marker) {
 		marker.remove()
 	}
 
 	// coloca el marcador en el mapa
-	marker = L.marker([lat, lon]).addTo(map);
+	marker = L.marker([lat, lon]).bindPopup(text).addTo(map);
 
 	// muestra la posicion del marcador
 	map.setView([lat, lon], 16)
